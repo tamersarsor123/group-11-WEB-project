@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>אישור הגעה | EventPilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="rsvp-page">
+
+  <!-- עמוד זה נפרד מממשק הניהול: אין בו תפריט ואין צורך בהתחברות -->
+  <header class="auth-header">
+    <p class="brand">EventPilot</p>
+  </header>
+
+  <main class="auth-card card">
+
+    <!-- מצב 1: הקישור לא תקף -->
+    <section id="invalid-section" hidden>
+      <h1>הקישור אינו תקף</h1>
+      <p>לא מצאנו הזמנה שמתאימה לקישור הזה. בדקו שהעתקתם את הקישור במלואו, או בקשו מהמארגן קישור חדש.</p>
+    </section>
+
+    <!-- מצב 2: טופס אישור ההגעה -->
+    <section id="form-section" hidden>
+      <p class="muted">הוזמנתם לאירוע</p>
+      <h1 id="event-title"></h1>
+      <p id="event-info" class="muted"></p>
+      <p id="greeting"></p>
+
+      <p id="closed-message" class="message warning" hidden></p>
+      <p id="current-answer" class="message success" hidden></p>
+      <p id="form-message" class="message error" role="alert" hidden></p>
+
+      <form id="rsvp-form" novalidate>
+        <fieldset class="field">
+          <legend>האם תגיעו?</legend>
+          <div class="choice-group">
+            <label class="choice">
+              <input type="radio" name="answer" id="answer-yes" value="attending">
+              <span>מגיעים</span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="answer" id="answer-no" value="declined">
+              <span>לא מגיעים</span>
+            </label>
+          </div>
+          <small class="field-error"></small>
+        </fieldset>
+
+        <!-- מוצג רק כשבוחרים "מגיעים" -->
+        <div class="field" id="count-field" hidden>
+          <label for="guest-count">כמה תגיעו?</label>
+          <input type="number" id="guest-count" min="1" step="1" inputmode="numeric">
+          <small class="field-error"></small>
+          <small class="hint" id="count-hint"></small>
+        </div>
+
+        <div class="field">
+          <label for="guest-note">הערה למארגן (לא חובה)</label>
+          <textarea id="guest-note" rows="3" maxlength="200" placeholder="למשל: מנה צמחונית"></textarea>
+          <small class="field-error"></small>
+          <small class="hint" id="note-counter">0 / 200</small>
+        </div>
+
+        <button type="submit" class="button primary full-width">שליחת התשובה</button>
+      </form>
+    </section>
+
+    <!-- מצב 3: התשובה נשמרה -->
+    <section id="result-section" aria-live="polite" hidden>
+      <h1 id="result-title"></h1>
+      <p id="result-text"></p>
+      <dl id="result-details" class="details-list"></dl>
+      <button type="button" id="change-answer-button" class="button ghost full-width">שינוי התשובה</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>EventPilot · פרויקט בקורס בניית מערכות מבוססות Web</p>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/rsvp.js"></script>
+</body>
+</html>
