@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ספקים ותקציב | EventPilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page">
+
+  <header class="site-header">
+    <a class="brand" href="events.html">EventPilot</a>
+    <button type="button" id="menu-button" class="menu-button" aria-expanded="false" aria-controls="main-nav">☰ תפריט</button>
+    <nav id="main-nav" class="main-nav" aria-label="ניווט ראשי">
+      <a href="events.html"><span data-icon="calendar"></span>האירועים שלי</a>
+      <a href="event.html" data-event-link><span data-icon="home"></span>האירוע שלי</a>
+      <a href="guests.html" data-event-link><span data-icon="users"></span>מוזמנים</a>
+      <a href="vendors.html" data-event-link class="active" aria-current="page"><span data-icon="wallet"></span>ספקים ותקציב</a>
+      <a href="seating.html" data-event-link><span data-icon="table"></span>סידורי ישיבה</a>
+    </nav>
+    <div class="user-area">
+      <span class="user-name"><span data-icon="user"></span><span id="user-name"></span></span>
+      <button type="button" id="logout-button" class="button small ghost">יציאה</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-title">
+      <div>
+        <p class="muted" id="event-name"></p>
+        <h1>ספקים ותקציב</h1>
+      </div>
+    </section>
+
+    <p id="page-message" class="message" role="status" hidden></p>
+
+    <section class="card" aria-label="סיכום תקציבי">
+      <h2>סיכום תקציבי</h2>
+      <div class="budget-numbers">
+        <p>תקציב כולל <strong id="budget-total"></strong></p>
+        <p>עלויות מתוכננות <strong id="budget-planned"></strong></p>
+        <p>שולם בפועל <strong id="budget-actual"></strong></p>
+        <p>יתרה <strong id="budget-remaining"></strong></p>
+      </div>
+      <!-- פס התקדמות: כמה מהתקציב כבר מתוכנן -->
+      <div class="progress" role="img" id="budget-bar-label">
+        <div id="budget-bar" class="progress-bar"></div>
+      </div>
+      <p id="budget-alert" class="message error" role="alert" hidden></p>
+    </section>
+
+    <section class="card">
+      <h2>הוספת ספק</h2>
+      <form id="vendor-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="vendor-name">שם הספק</label>
+          <input type="text" id="vendor-name" maxlength="60">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="vendor-service">סוג השירות</label>
+          <input type="text" id="vendor-service" maxlength="40" placeholder="למשל: צילום">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="vendor-planned">עלות מתוכננת (₪)</label>
+          <input type="number" id="vendor-planned" min="0" max="10000000" step="1" inputmode="numeric">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="vendor-actual">שולם בפועל (₪)</label>
+          <input type="number" id="vendor-actual" min="0" max="10000000" step="1" value="0" inputmode="numeric">
+          <small class="field-error"></small>
+        </div>
+        <!-- תצוגה מקדימה: מתעדכנת תוך כדי הקלדה -->
+        <p id="vendor-preview" class="hint preview" aria-live="polite"></p>
+        <div class="form-actions">
+          <button type="submit" class="button primary">הוספת ספק</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>רשימת הספקים</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th scope="col">ספק</th>
+            <th scope="col">שירות</th>
+            <th scope="col">עלות מתוכננת</th>
+            <th scope="col">שולם בפועל</th>
+            <th scope="col">סטטוס תשלום</th>
+            <th scope="col">פעולות</th>
+          </tr>
+        </thead>
+        <tbody id="vendors-body"></tbody>
+      </table>
+      <p id="empty-state" class="empty-state" hidden>עדיין לא נוספו ספקים.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>EventPilot · פרויקט בקורס בניית מערכות מבוססות Web</p>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/vendors.js"></script>
+</body>
+</html>

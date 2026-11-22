@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>האירועים שלי | EventPilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page">
+
+  <header class="site-header">
+    <a class="brand" href="events.html">EventPilot</a>
+    <button type="button" id="menu-button" class="menu-button" aria-expanded="false" aria-controls="main-nav">☰ תפריט</button>
+    <nav id="main-nav" class="main-nav" aria-label="ניווט ראשי">
+      <a href="events.html" class="active" aria-current="page"><span data-icon="calendar"></span>האירועים שלי</a>
+    </nav>
+    <div class="user-area">
+      <span class="user-name"><span data-icon="user"></span><span id="user-name"></span></span>
+      <button type="button" id="logout-button" class="button small ghost">יציאה</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-title">
+      <h1>האירועים שלי</h1>
+      <button type="button" id="new-event-button" class="button primary">+ אירוע חדש</button>
+    </section>
+
+    <p id="page-message" class="message" role="status" hidden></p>
+
+    <!-- טופס יצירת אירוע - מוסתר עד שלוחצים על "אירוע חדש" -->
+    <section id="new-event-section" class="card" hidden>
+      <h2>יצירת אירוע חדש</h2>
+      <form id="event-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="event-name-input">שם האירוע</label>
+          <input type="text" id="event-name-input" maxlength="60">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="event-type">סוג האירוע</label>
+          <select id="event-type">
+            <option value="">בחרו סוג</option>
+            <option>חתונה</option>
+            <option>בר/בת מצווה</option>
+            <option>יום הולדת</option>
+            <option>כנס</option>
+            <option>אירוע חברה</option>
+            <option>אחר</option>
+          </select>
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="event-date">תאריך האירוע</label>
+          <input type="date" id="event-date">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="event-deadline">מועד אחרון לאישור הגעה</label>
+          <input type="date" id="event-deadline">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="event-location">מיקום</label>
+          <input type="text" id="event-location" maxlength="80">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="event-budget">תקציב כולל (₪)</label>
+          <input type="number" id="event-budget" min="1" step="1" inputmode="numeric">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="event-guests">מספר משתתפים מתוכנן</label>
+          <input type="number" id="event-guests" min="1" step="1" inputmode="numeric">
+          <small class="field-error"></small>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="button primary">שמירת האירוע</button>
+          <button type="button" id="cancel-event-button" class="button ghost">ביטול</button>
+        </div>
+      </form>
+    </section>
+
+    <section aria-label="רשימת האירועים">
+      <div id="events-list" class="cards-grid"></div>
+      <p id="empty-state" class="empty-state" hidden>עדיין אין אירועים. לחצו על "אירוע חדש" כדי להתחיל.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>EventPilot · פרויקט בקורס בניית מערכות מבוססות Web</p>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>

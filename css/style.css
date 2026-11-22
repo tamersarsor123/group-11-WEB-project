@@ -1,0 +1,935 @@
+/*
+  style.css - העיצוב של EventPilot
+  שפה עיצובית לפי האפיון: כחול כהה לניווט ולכותרות, רקע שמנת ולבן,
+  ירוק לתקין, כתום ואדום להתראות. גופן Assistant עם Arial כגיבוי.
+  הגישה היא Mobile First: קודם העיצוב לטלפון, ואחריו התאמות למסכים רחבים.
+*/
+
+/* ---------- משתנים ---------- */
+:root {
+  --navy: #1f3a5f;
+  --navy-dark: #162b47;
+  --cream: #faf7f0;
+  --white: #ffffff;
+  --text: #22303f;
+  --muted: #5b6878;
+  --border: #dcd6c8;
+  --green: #1e7b4c;
+  --green-bg: #e3f4ea;
+  --orange: #a85b00;
+  --orange-bg: #fdefd8;
+  --red: #b3261e;
+  --red-bg: #fbe4e2;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(31, 58, 95, 0.12);
+}
+
+/* ---------- בסיס ---------- */
+* {
+  box-sizing: border-box;
+}
+
+/* מוודא שאלמנט עם hidden באמת מוסתר, גם אם הוגדר לו display אחר */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Assistant", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--cream);
+  /* מילה ארוכה מאוד בלי רווחים נשברת לשורה הבאה במקום לחרוג מהמסך */
+  overflow-wrap: break-word;
+}
+
+h1, h2, h3 {
+  margin: 0 0 0.5rem;
+  color: var(--navy);
+  line-height: 1.25;
+}
+
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1.05rem; }
+
+p {
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--navy);
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+  flex: 1;
+}
+
+.muted { color: var(--muted); }
+
+/* ---------- אייקונים ----------
+   ה-SVG נוצר ב-common.js. הצבע נלקח מצבע הטקסט של האלמנט שמסביב */
+.icon {
+  display: inline-flex;
+  flex: none;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.danger-text { color: var(--red); }
+.success-text { color: var(--green); }
+
+/* ---------- כותרת עליונה וניווט ---------- */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--navy);
+  color: var(--white);
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.menu-button {
+  margin-inline-start: auto;
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  color: var(--white);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* בטלפון התפריט מוסתר עד שלוחצים על כפתור התפריט */
+.main-nav {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  order: 3;
+}
+
+.main-nav.open {
+  display: flex;
+}
+
+.main-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.5rem;
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.main-nav a:hover {
+  background: var(--navy-dark);
+}
+
+.main-nav a.active {
+  background: var(--white);
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.site-header .button.ghost {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.site-footer {
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.page-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* ---------- כרטיסים ---------- */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cards-grid .card {
+  margin-bottom: 0;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-card h2 {
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* כותרת הכרטיס מימין והאייקון משמאל */
+.stat-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.stat-icon {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 10px;
+  color: var(--navy);
+  background: rgba(31, 58, 95, 0.08);
+  font-size: 1.1rem;
+}
+
+/* כרטיסים צבעוניים לפי משמעות הנתון */
+.stat-card.tone-green { background: var(--green-bg); border-color: #b7dfc7; }
+.stat-card.tone-orange { background: var(--orange-bg); border-color: #f1d3a3; }
+.stat-card.tone-red { background: var(--red-bg); border-color: #efc2be; }
+
+.tone-green .stat-icon,
+.tone-green .stat-number { color: var(--green); }
+.tone-orange .stat-icon,
+.tone-orange .stat-number { color: var(--orange); }
+.tone-red .stat-icon,
+.tone-red .stat-number { color: var(--red); }
+
+.tone-green .stat-icon,
+.tone-orange .stat-icon,
+.tone-red .stat-icon {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* רשימת פרטים עם אייקון לפני כל שורה */
+.icon-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.icon-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.icon-list li:last-child {
+  border-bottom: 0;
+}
+
+.icon-list .icon {
+  color: var(--navy);
+}
+
+.overview-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.overview-grid > .card,
+.overview-grid .cards-grid {
+  margin-bottom: 0;
+}
+
+.stat-number {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31, 58, 95, 0.18);
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ---------- כפתורים ---------- */
+.button {
+  display: inline-block;
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.button.primary {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.button.primary:hover {
+  background: var(--navy-dark);
+}
+
+.button.ghost {
+  background: transparent;
+  color: var(--navy);
+  border-color: var(--border);
+}
+
+.button.ghost:hover {
+  background: rgba(31, 58, 95, 0.08);
+}
+
+.button.small {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.button.danger-text {
+  color: var(--red);
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* מסגרת פוקוס ברורה למי שמנווט במקלדת */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #f0a500;
+  outline-offset: 2px;
+}
+
+/* ---------- טפסים ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+label,
+legend {
+  font-weight: 600;
+  padding: 0;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--white);
+  border: 1px solid #b9b3a5;
+  border-radius: 8px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  padding: 0;
+  accent-color: var(--navy);
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid {
+  border-color: var(--red);
+  background: var(--red-bg);
+}
+
+.field-error {
+  color: var(--red);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.inline-form,
+.toolbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.choice-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.choice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* מדגיש את האפשרות שנבחרה */
+.choice:has(input:checked) {
+  border-color: var(--navy);
+  background: rgba(31, 58, 95, 0.08);
+}
+
+/* ---------- הודעות ותוויות ---------- */
+.message {
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border-inline-start: 5px solid;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  animation: fade-in 0.25s ease;
+}
+
+.message.success { background: var(--green-bg); color: var(--green); }
+.message.warning { background: var(--orange-bg); color: var(--orange); }
+.message.error { background: var(--red-bg); color: var(--red); }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge.neutral { background: #ebe7dc; color: var(--text); }
+.badge.success { background: var(--green-bg); color: var(--green); }
+.badge.warning { background: var(--orange-bg); color: var(--orange); }
+.badge.danger { background: var(--red-bg); color: var(--red); }
+
+.empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ---------- טבלאות ----------
+   בטלפון כל שורה מוצגת ככרטיס, ושם העמודה מגיע מהתכונה data-label */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead {
+  display: none;
+}
+
+.data-table tr {
+  display: block;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.3rem 0;
+}
+
+.data-table td::before {
+  content: attr(data-label);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.status-select,
+.table-input {
+  width: auto;
+  max-width: 9rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.status-select.status-attending { border-color: var(--green); color: var(--green); }
+.status-select.status-declined { border-color: var(--red); color: var(--red); }
+
+/* ---------- משימות ורשימות ---------- */
+.task-list,
+.plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.task,
+.list-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-row {
+  justify-content: space-between;
+}
+
+.task-title {
+  flex: 1;
+  font-weight: 400;
+  min-width: 8rem;
+}
+
+.task.done .task-title {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* ---------- תקציב ---------- */
+.budget-numbers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 1rem;
+}
+
+.budget-numbers strong {
+  display: block;
+  font-size: 1.25rem;
+}
+
+.progress {
+  height: 14px;
+  margin: 0.75rem 0;
+  background: #ebe7dc;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  transition: width 0.4s ease;
+}
+
+.progress-bar.near { background: #d98a00; }
+.progress-bar.over { background: var(--red); }
+
+/* פס דק יותר בתוך כרטיסי הסיכום */
+.progress.small {
+  height: 8px;
+  margin: 0.5rem 0 0;
+}
+
+.preview {
+  grid-column: 1 / -1;
+  min-height: 1.4em;
+  font-weight: 600;
+}
+
+/* ---------- סידורי ישיבה ---------- */
+.table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.table-card-header h3 {
+  margin: 0;
+}
+
+.table-card.full {
+  border-color: var(--red);
+}
+
+.table-card .plain-list {
+  margin-bottom: 0.75rem;
+}
+
+/* ציור השולחן: כפתור עגול, עם שולחן במרכז וכיסאות סביבו */
+.table-visual {
+  position: relative;
+  display: block;
+  width: 170px;
+  height: 170px;
+  margin: 0.5rem auto;
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.table-top {
+  position: absolute;
+  inset: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid var(--border);
+  color: var(--navy);
+  transition: border-color 0.15s ease;
+}
+
+.table-visual:hover .table-top {
+  border-color: var(--navy);
+}
+
+.table-card.full .table-top {
+  border-color: var(--red);
+}
+
+/*
+  כל כיסא מתחיל במרכז הציור. הסיבוב לפי --angle מכוון אותו,
+  וההזזה כלפי מעלה (translateY) מרחיקה אותו אל שפת השולחן.
+*/
+.chair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px;
+  border: 2px solid #9aa6b5;
+  border-radius: 5px;
+  background: var(--white);
+  transform: rotate(var(--angle)) translateY(-72px);
+}
+
+.chair.taken {
+  background: var(--navy);
+  border-color: var(--navy);
+}
+
+/* בשולחן גדול הכיסאות קטנים יותר, כדי שלא יעלו זה על זה */
+.table-visual.dense .chair {
+  width: 11px;
+  height: 11px;
+  margin: -5.5px;
+  border-radius: 3px;
+}
+
+/* ---------- עמודי כניסה ואישור הגעה ---------- */
+.auth-header {
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+}
+
+.auth-header .brand {
+  font-size: 2rem;
+  color: var(--navy);
+}
+
+.auth-card {
+  width: calc(100% - 2rem);
+  max-width: 440px;
+  margin: 0 auto 1rem;
+  padding: 1.5rem;
+  flex: 0 0 auto;
+}
+
+.auth-page .site-footer,
+.rsvp-page .site-footer {
+  margin-top: auto;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.tab {
+  flex: 1;
+  padding: 0.6rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
+}
+
+.details-list {
+  display: grid;
+  /* minmax(0, 1fr) מאפשר לעמודת הערכים להצטמצם, כך שטקסט ארוך נשבר בתוך הכרטיס */
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.4rem 1rem;
+  margin: 1rem 0;
+}
+
+.details-list dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.details-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* גם בטבלאות: ערך ארוך בלי רווחים לא דוחף את הטבלה אל מחוץ למסך */
+.data-table td {
+  overflow-wrap: anywhere;
+}
+
+/* ---------- טאבלט ומעלה ---------- */
+@media (min-width: 640px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-actions {
+    grid-column: 1 / -1;
+  }
+
+  .inline-form,
+  .toolbar {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* מיישר את הכפתור לגובה השדות (מתחת לשורת התווית) */
+  .inline-form .button {
+    margin-top: 1.75rem;
+  }
+
+  .grow { flex: 1; }
+  .narrow { width: 8rem; }
+
+  .budget-numbers {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------- מחשב ---------- */
+@media (min-width: 900px) {
+  .menu-button {
+    display: none;
+  }
+
+  /*
+    במחשב: תפריט צד קבוע, כמו בשרטוטים מחלק א'.
+    העמוד מתחלק לשתי עמודות. בעברית העמודה הראשונה היא הימנית, ולכן התפריט מימין.
+  */
+  .app-page {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+  }
+
+  .app-page .site-header {
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 1.25rem 0.9rem;
+  }
+
+  .app-page .main-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: auto;
+    order: 0;
+    flex: 1;
+  }
+
+  .app-page .user-area {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  /* בעמוד "האירוע שלי": פרטי האירוע מימין וכרטיסי הסיכום (2x2) משמאל */
+  .overview-grid {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  .overview-grid .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    height: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .cards-grid:not(.stats-grid):not(.tables-grid) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  /* במחשב הטבלה חוזרת לתצוגה רגילה של שורות ועמודות */
+  .data-table thead {
+    display: table-header-group;
+  }
+
+  .data-table tr {
+    display: table-row;
+  }
+
+  .data-table th,
+  .data-table td {
+    display: table-cell;
+    padding: 0.6rem 0.5rem;
+    text-align: start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table th {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .data-table td::before {
+    content: none;
+  }
+}
+
+/* מכבד את ההעדפה של משתמשים שביקשו פחות תנועה */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>האירוע שלי | EventPilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page">
+
+  <header class="site-header">
+    <a class="brand" href="events.html">EventPilot</a>
+    <button type="button" id="menu-button" class="menu-button" aria-expanded="false" aria-controls="main-nav">☰ תפריט</button>
+    <nav id="main-nav" class="main-nav" aria-label="ניווט ראשי">
+      <a href="events.html"><span data-icon="calendar"></span>האירועים שלי</a>
+      <a href="event.html" data-event-link class="active" aria-current="page"><span data-icon="home"></span>האירוע שלי</a>
+      <a href="guests.html" data-event-link><span data-icon="users"></span>מוזמנים</a>
+      <a href="vendors.html" data-event-link><span data-icon="wallet"></span>ספקים ותקציב</a>
+      <a href="seating.html" data-event-link><span data-icon="table"></span>סידורי ישיבה</a>
+    </nav>
+    <div class="user-area">
+      <span class="user-name"><span data-icon="user"></span><span id="user-name"></span></span>
+      <button type="button" id="logout-button" class="button small ghost">יציאה</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-title">
+      <div>
+        <p class="muted">האירוע שלי</p>
+        <h1 id="event-name"></h1>
+      </div>
+      <button type="button" id="edit-event-button" class="button ghost">עריכת פרטים</button>
+    </section>
+
+    <p id="page-message" class="message" role="status" hidden></p>
+
+    <!-- טופס עריכת פרטי האירוע - מוסתר עד שלוחצים על "עריכת פרטים" -->
+    <section id="edit-event-section" class="card" hidden>
+      <h2>עריכת פרטי האירוע</h2>
+      <form id="edit-event-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="edit-location">מיקום</label>
+          <input type="text" id="edit-location" maxlength="80">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="edit-budget">תקציב כולל (₪)</label>
+          <input type="number" id="edit-budget" min="1" step="1" inputmode="numeric">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="edit-guests">מספר משתתפים מתוכנן</label>
+          <input type="number" id="edit-guests" min="1" step="1" inputmode="numeric">
+          <small class="field-error"></small>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="button primary">שמירה</button>
+          <button type="button" id="cancel-edit-button" class="button ghost">ביטול</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- התראות על חריגות - נבנות ב-JavaScript לפי הנתונים -->
+    <section id="alerts" aria-label="התראות" aria-live="polite"></section>
+
+    <div class="overview-grid">
+      <!-- פרטי האירוע - הערכים נכתבים ב-JavaScript -->
+      <section class="card" aria-labelledby="details-title">
+        <h2 id="details-title">פרטי האירוע</h2>
+        <ul class="icon-list">
+          <li><span data-icon="tag"></span><span class="muted">סוג:</span> <span id="detail-type"></span></li>
+          <li><span data-icon="calendar"></span><span class="muted">תאריך:</span> <span id="detail-date"></span></li>
+          <li><span data-icon="pin"></span><span class="muted">מיקום:</span> <span id="detail-location"></span></li>
+          <li><span data-icon="wallet"></span><span class="muted">תקציב כולל:</span> <span id="detail-budget"></span></li>
+          <li><span data-icon="users"></span><span class="muted">משתתפים מתוכננים:</span> <span id="detail-guests"></span></li>
+          <li><span data-icon="clock"></span><span class="muted">אישור הגעה עד:</span> <span id="detail-deadline"></span></li>
+        </ul>
+      </section>
+
+      <section aria-label="תמונת מצב">
+        <div class="cards-grid stats-grid">
+          <article class="card stat-card">
+            <div class="stat-head">
+              <h2>משתתפים</h2>
+              <span class="stat-icon"><span data-icon="users"></span></span>
+            </div>
+            <p class="stat-number" id="stat-confirmed">0</p>
+            <p class="muted" id="stat-confirmed-note"></p>
+            <div class="progress small"><div id="stat-guests-bar" class="progress-bar"></div></div>
+          </article>
+          <article class="card stat-card">
+            <div class="stat-head">
+              <h2>תקציב</h2>
+              <span class="stat-icon"><span data-icon="wallet"></span></span>
+            </div>
+            <p class="stat-number" id="stat-planned">0</p>
+            <p class="muted" id="stat-planned-note"></p>
+            <div class="progress small"><div id="stat-budget-bar" class="progress-bar"></div></div>
+          </article>
+          <article class="card stat-card">
+            <div class="stat-head">
+              <h2>ספקים</h2>
+              <span class="stat-icon"><span data-icon="briefcase"></span></span>
+            </div>
+            <p class="stat-number" id="stat-vendors">0</p>
+            <p class="muted" id="stat-vendors-note"></p>
+          </article>
+          <article class="card stat-card">
+            <div class="stat-head">
+              <h2>סידורי ישיבה</h2>
+              <span class="stat-icon"><span data-icon="table"></span></span>
+            </div>
+            <p class="stat-number"><span id="stat-seated" dir="ltr">0</span></p>
+            <p class="muted">משתתפים ששובצו לשולחנות</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2 class="title-with-icon"><span data-icon="list"></span>משימות לקראת האירוע</h2>
+      <form id="task-form" class="inline-form" novalidate>
+        <div class="field grow">
+          <label for="task-title">תיאור המשימה</label>
+          <input type="text" id="task-title" maxlength="80">
+          <small class="field-error"></small>
+        </div>
+        <div class="field">
+          <label for="task-date">תאריך יעד</label>
+          <input type="date" id="task-date">
+          <small class="field-error"></small>
+        </div>
+        <button type="submit" class="button primary">הוספת משימה</button>
+      </form>
+      <ul id="tasks-list" class="task-list"></ul>
+      <p id="tasks-empty" class="empty-state" hidden>אין משימות עדיין.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>EventPilot · פרויקט בקורס בניית מערכות מבוססות Web</p>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/event.js"></script>
+</body>
+</html>

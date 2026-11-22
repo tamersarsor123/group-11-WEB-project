@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>כניסה והרשמה | EventPilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+  <header class="auth-header">
+    <h1 class="brand">EventPilot</h1>
+    <p>כל תכנון האירוע במקום אחד: מוזמנים, ספקים, תקציב וסידורי ישיבה.</p>
+  </header>
+
+  <main class="auth-card card">
+    <!-- כפתורי מעבר בין כניסה להרשמה -->
+    <div class="tabs" role="tablist">
+      <button type="button" id="login-tab" class="tab active" role="tab" aria-selected="true" aria-controls="login-form">כניסה</button>
+      <button type="button" id="register-tab" class="tab" role="tab" aria-selected="false" aria-controls="register-form">הרשמה</button>
+    </div>
+
+    <p id="auth-message" class="message" role="alert" hidden></p>
+
+    <form id="login-form" novalidate>
+      <div class="field">
+        <label for="login-email">אימייל</label>
+        <input type="email" id="login-email" autocomplete="email" dir="ltr">
+        <small class="field-error"></small>
+      </div>
+      <div class="field">
+        <label for="login-password">סיסמה</label>
+        <input type="password" id="login-password" autocomplete="current-password" dir="ltr">
+        <small class="field-error"></small>
+      </div>
+      <button type="submit" class="button primary full-width">כניסה</button>
+      <p class="hint">משתמש הדגמה: demo@eventpilot.com, סיסמה: Demo1234</p>
+    </form>
+
+    <form id="register-form" novalidate hidden>
+      <div class="field">
+        <label for="register-name">שם מלא</label>
+        <input type="text" id="register-name" autocomplete="name">
+        <small class="field-error"></small>
+      </div>
+      <div class="field">
+        <label for="register-email">אימייל</label>
+        <input type="email" id="register-email" autocomplete="email" dir="ltr">
+        <small class="field-error"></small>
+      </div>
+      <div class="field">
+        <label for="register-password">סיסמה</label>
+        <input type="password" id="register-password" autocomplete="new-password" dir="ltr">
+        <small class="field-error"></small>
+        <small class="hint">לפחות 8 תווים, כולל אות וספרה.</small>
+      </div>
+      <div class="field">
+        <label for="register-confirm">אימות סיסמה</label>
+        <input type="password" id="register-confirm" autocomplete="new-password" dir="ltr">
+        <small class="field-error"></small>
+      </div>
+      <button type="submit" class="button primary full-width">יצירת חשבון</button>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>EventPilot · פרויקט בקורס בניית מערכות מבוססות Web</p>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
