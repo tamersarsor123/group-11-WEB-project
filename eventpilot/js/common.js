@@ -12,7 +12,8 @@ const STATUS_LABELS = {
 const PAYMENT_LABELS = {
   unpaid: "לא שולם",
   partial: "שולם חלקית",
-  paid: "שולם"
+  paid: "שולם",
+  overpaid: "שולם ביתר"
 };
 
 /*

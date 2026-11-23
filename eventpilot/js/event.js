@@ -41,7 +41,9 @@ function renderSummary() {
   setProgress(document.getElementById("stat-budget-bar"), summary.plannedCost, summary.budget, true);
 
   const vendors = getVendors(currentEvent.id);
-  const paidVendors = vendors.filter(function (vendor) { return vendor.paymentStatus === "paid"; }).length;
+  const paidVendors = vendors.filter(function (vendor) {
+    return vendor.paymentStatus === "paid" || vendor.paymentStatus === "overpaid";
+  }).length;
   document.getElementById("stat-vendors").textContent = vendors.length;
   document.getElementById("stat-vendors-note").textContent = paidVendors + " שולמו במלואם";
 

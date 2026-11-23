@@ -17,7 +17,10 @@ function getPaymentStatus(plannedCost, actualCost) {
   if (actualCost === 0) {
     return "unpaid";
   }
-  return actualCost >= plannedCost ? "paid" : "partial";
+  if (actualCost > plannedCost) {
+    return "overpaid";
+  }
+  return actualCost === plannedCost ? "paid" : "partial";
 }
 
 function renderBudget() {
@@ -63,6 +66,16 @@ function createActualCostInput(vendor) {
       return;
     }
     const actualCost = Number(input.value);
+    // תשלום מעל העלות המתוכננת הוא לרוב טעות הקלדה (למשל אפס מיותר), ולכן מבקשים אישור.
+    // לפעמים זה נכון - למשל תוספות שהוזמנו מהספק - ואז המארגן מאשר.
+    if (actualCost > vendor.plannedCost) {
+      const approved = window.confirm("הסכום ששולם ל" + vendor.name + " (" + formatMoney(actualCost) +
+        ") גבוה מהעלות המתוכננת (" + formatMoney(vendor.plannedCost) + "). לשמור בכל זאת?");
+      if (!approved) {
+        input.value = vendor.actualCost;
+        return;
+      }
+    }
     updateVendor(vendor.id, {
       actualCost: actualCost,
       paymentStatus: getPaymentStatus(vendor.plannedCost, actualCost)
@@ -84,7 +97,7 @@ function createVendorRow(vendor) {
   row.appendChild(createCell("עלות מתוכננת", formatMoney(vendor.plannedCost)));
   row.appendChild(createCell("שולם בפועל", createActualCostInput(vendor)));
 
-  const badgeType = { unpaid: "neutral", partial: "warning", paid: "success" }[vendor.paymentStatus];
+  const badgeType = { unpaid: "neutral", partial: "warning", paid: "success", overpaid: "danger" }[vendor.paymentStatus];
   row.appendChild(createCell("סטטוס תשלום",
     createElement("span", "badge " + badgeType, PAYMENT_LABELS[vendor.paymentStatus])));
 
@@ -143,7 +156,9 @@ function handleAddVendor(submitEvent) {
     { input: name, valid: isValidName(name.value), message: "יש להזין שם ספק (לפחות 2 תווים)." },
     { input: service, valid: service.value.trim().length >= 2, message: "יש להזין סוג שירות." },
     { input: plannedInput, valid: isValidAmount(plannedInput.value) && Number(plannedInput.value) > 0, message: "העלות המתוכננת חייבת להיות מספר שלם בין 1 ל-" + formatMoney(MAX_AMOUNT) + "." },
-    { input: actualInput, valid: isValidAmount(actualInput.value), message: "הסכום ששולם חייב להיות מספר שלם בין 0 ל-" + formatMoney(MAX_AMOUNT) + "." }
+    { input: actualInput, valid: isValidAmount(actualInput.value), message: "הסכום ששולם חייב להיות מספר שלם בין 0 ל-" + formatMoney(MAX_AMOUNT) + "." },
+    // בספק חדש מזינים את שני הסכומים יחד, ולכן תשלום מעל העלות הוא טעות שאפשר לתקן מיד
+    { input: actualInput, valid: Number(actualInput.value) <= Number(plannedInput.value), message: "הסכום ששולם לא יכול להיות גבוה מהעלות המתוכננת." }
   ]);
   if (!valid) {
     return;
