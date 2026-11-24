@@ -514,14 +514,21 @@ function getEventSummary(eventId) {
     }
   });
 
+  /*
+    העלות האמיתית של ספק היא הגבוה מבין העלות המתוכננת לסכום ששולם:
+    אם שילמו לספק יותר מהמתוכנן (למשל תוספות), התשלום הוא העלות שלו בפועל.
+    היתרה וההתראה על חריגה מחושבות לפי העלות הזאת, ולא רק לפי התכנון.
+  */
+  summary.totalCost = 0;
   vendors.forEach(function (vendor) {
     summary.plannedCost += vendor.plannedCost;
     summary.actualCost += vendor.actualCost;
+    summary.totalCost += Math.max(vendor.plannedCost, vendor.actualCost);
   });
 
   summary.budget = event.budget;
-  summary.remaining = event.budget - summary.plannedCost;
-  summary.overBudget = summary.plannedCost > event.budget;
+  summary.remaining = event.budget - summary.totalCost;
+  summary.overBudget = summary.totalCost > event.budget;
   summary.overCapacity = summary.confirmedGuests > event.plannedGuests;
   return summary;
 }

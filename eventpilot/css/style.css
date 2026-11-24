@@ -626,6 +626,47 @@ textarea.invalid {
 .progress-bar.near { background: #d98a00; }
 .progress-bar.over { background: var(--red); }
 
+/* פס בשתי שכבות: שני הפסים מונחים זה על זה ומתחילים מימין */
+.progress.layered {
+  position: relative;
+}
+
+.progress.layered .progress-bar {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+}
+
+/* השכבה הבהירה: כל העלויות. הכהה שמעליה: מה שכבר שולם */
+.progress-bar.light {
+  opacity: 0.35;
+}
+
+.progress-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.progress-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend-swatch {
+  width: 0.9rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: var(--green);
+}
+
+.legend-swatch.light {
+  opacity: 0.35;
+}
+
 /* פס דק יותר בתוך כרטיסי הסיכום */
 .progress.small {
   height: 8px;
