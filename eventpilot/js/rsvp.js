@@ -38,6 +38,13 @@ function updateNoteCounter() {
   noteCounter.textContent = noteInput.value.length + " / " + NOTE_MAX_LENGTH;
 }
 
+// כפתורי פלוס ומינוס: משנים את מספר המגיעים בצעד אחד, בין 1 למספר המוזמנים בהזמנה
+function changeCount(step) {
+  const current = parseInt(countInput.value, 10) || 0;
+  const next = Math.min(Math.max(current + step, 1), invitation.invitedCount);
+  countInput.value = next;
+}
+
 // ממלא את פרטי האירוע ואת התשובה הקודמת של האורח, אם יש
 function showForm() {
   resultSection.hidden = true;
@@ -164,6 +171,8 @@ if (!invitation || !guestEvent) {
   answerYes.addEventListener("change", updateCountVisibility);
   answerNo.addEventListener("change", updateCountVisibility);
   noteInput.addEventListener("input", updateNoteCounter);
+  document.getElementById("count-minus").addEventListener("click", function () { changeCount(-1); });
+  document.getElementById("count-plus").addEventListener("click", function () { changeCount(1); });
   rsvpForm.addEventListener("submit", handleSubmit);
   document.getElementById("change-answer-button").addEventListener("click", showForm);
 }

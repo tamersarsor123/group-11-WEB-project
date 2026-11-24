@@ -34,7 +34,13 @@ const ICONS = {
   pin: "M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
   tag: "M3 3h8l10 10-8 8L3 11z M7.5 7.5h.01",
   user: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0",
-  list: "M9 6h12 M9 12h12 M9 18h12 M4 6h.01 M4 12h.01 M4 18h.01"
+  list: "M9 6h12 M9 12h12 M9 18h12 M4 6h.01 M4 12h.01 M4 18h.01",
+  heart: "M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z",
+  smile: "M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z M8 14s1.5 2 4 2 4-2 4-2 M9 9.5h.01 M15 9.5h.01",
+  plus: "M12 5v14 M5 12h14",
+  minus: "M5 12h14",
+  send: "M22 2 11 13 M22 2l-7 20-4-9-9-4z",
+  logo: "M4 5h16v15H4z M4 10h16 M9 3v4 M15 3v4 M12 17.5s-3-1.8-3-3.7a1.5 1.5 0 0 1 3-.5 1.5 1.5 0 0 1 3 .5c0 1.9-3 3.7-3 3.7z"
 };
 
 // יוצר אלמנט SVG של אייקון לפי השם שלו ברשימת ICONS
@@ -149,8 +155,14 @@ function requireEvent(user) {
 }
 
 // מגדיר את הכותרת העליונה: שם המשתמש, כפתור יציאה, תפריט נייד וקישורי האירוע
+// ראשי התיבות של שם, למשל "דנה לוי" -> "דל"
+function getInitials(name) {
+  return name.trim().split(/\s+/).slice(0, 2).map(function (word) { return word[0]; }).join("");
+}
+
 function setupHeader(user, event) {
   document.getElementById("user-name").textContent = user.name;
+  document.getElementById("user-avatar").textContent = getInitials(user.name);
 
   document.getElementById("logout-button").addEventListener("click", function () {
     logoutUser();
