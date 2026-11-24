@@ -45,10 +45,15 @@
         <p>שולם בפועל <strong id="budget-actual"></strong></p>
         <p>יתרה <strong id="budget-remaining"></strong></p>
       </div>
-      <!-- פס התקדמות: כמה מהתקציב כבר מתוכנן -->
-      <div class="progress" role="img" id="budget-bar-label">
-        <div id="budget-bar" class="progress-bar"></div>
+      <!-- פס בשתי שכבות: בהירה = כל העלויות, כהה = מה שכבר שולם. מתעדכן בכל הוספה או תשלום -->
+      <div class="progress layered" role="img" id="budget-bar-label">
+        <div id="budget-bar" class="progress-bar light"></div>
+        <div id="budget-paid-bar" class="progress-bar"></div>
       </div>
+      <p class="progress-legend">
+        <span><span class="legend-swatch"></span>שולם</span>
+        <span><span class="legend-swatch light"></span>עלויות (מתוכנן, או ששולם אם שולם יותר)</span>
+      </p>
       <p id="budget-alert" class="message error" role="alert" hidden></p>
     </section>
 

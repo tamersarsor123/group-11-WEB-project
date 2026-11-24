@@ -65,13 +65,13 @@ function renderIcons() {
 function setProgress(bar, value, max, warnWhenNear) {
   const percent = max > 0 ? Math.round((value / max) * 100) : 0;
   bar.style.width = Math.min(percent, 100) + "%";
-  let state = "";
+  // מחליפים רק את מחלקת המצב, כדי לשמור מחלקות אחרות של הפס (למשל light)
+  bar.classList.remove("near", "over");
   if (value > max) {
-    state = " over";
+    bar.classList.add("over");
   } else if (warnWhenNear && percent >= 85) {
-    state = " near";
+    bar.classList.add("near");
   }
-  bar.className = "progress-bar" + state;
   return percent;
 }
 

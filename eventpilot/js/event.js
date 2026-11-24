@@ -35,10 +35,11 @@ function renderSummary() {
   setProgress(document.getElementById("stat-guests-bar"), summary.confirmedGuests, currentEvent.plannedGuests, false);
 
   // תקציב: העלויות המתוכננות מתוך התקציב. קרוב לתקציב - כתום, חריגה - אדום
-  document.getElementById("stat-planned").textContent = formatMoney(summary.plannedCost);
+  document.getElementById("stat-planned").textContent = formatMoney(summary.totalCost);
   document.getElementById("stat-planned-note").textContent =
-    "מתוכנן מתוך " + formatMoney(summary.budget) + " · שולם " + formatMoney(summary.actualCost);
-  setProgress(document.getElementById("stat-budget-bar"), summary.plannedCost, summary.budget, true);
+    "עלויות מתוך " + formatMoney(summary.budget) + " · שולם " + formatMoney(summary.actualCost);
+  setProgress(document.getElementById("stat-budget-bar"), summary.totalCost, summary.budget, true);
+  setProgress(document.getElementById("stat-paid-bar"), summary.actualCost, summary.budget, true);
 
   const vendors = getVendors(currentEvent.id);
   const paidVendors = vendors.filter(function (vendor) {
@@ -52,7 +53,7 @@ function renderSummary() {
   alertsArea.innerHTML = "";
   if (summary.overBudget) {
     alertsArea.appendChild(createElement("p", "message error",
-      "חריגה מהתקציב: העלויות המתוכננות גבוהות ב-" + formatMoney(-summary.remaining) + " מהתקציב."));
+      "חריגה מהתקציב: העלויות גבוהות ב-" + formatMoney(-summary.remaining) + " מהתקציב."));
   }
   if (summary.overCapacity) {
     alertsArea.appendChild(createElement("p", "message warning",

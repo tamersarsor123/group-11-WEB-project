@@ -34,13 +34,15 @@ function renderBudget() {
   remaining.textContent = formatMoney(summary.remaining);
   remaining.className = summary.overBudget ? "danger-text" : "success-text";
 
-  // פס ההתקדמות: אחוז התקציב שכבר מתוכנן
-  const percent = setProgress(document.getElementById("budget-bar"), summary.plannedCost, summary.budget, true);
-  document.getElementById("budget-bar-label").setAttribute("aria-label", percent + "% מהתקציב מתוכנן");
+  // פס בשתי שכבות: כל העלויות (בהיר) ומה שכבר שולם (כהה), ביחס לתקציב
+  const costPercent = setProgress(document.getElementById("budget-bar"), summary.totalCost, summary.budget, true);
+  const paidPercent = setProgress(document.getElementById("budget-paid-bar"), summary.actualCost, summary.budget, true);
+  document.getElementById("budget-bar-label").setAttribute("aria-label",
+    "העלויות הן " + costPercent + "% מהתקציב, ומתוכן שולמו " + paidPercent + "% מהתקציב");
 
   const alert = document.getElementById("budget-alert");
   if (summary.overBudget) {
-    alert.textContent = "חריגה מהתקציב: העלויות המתוכננות גבוהות ב-" +
+    alert.textContent = "חריגה מהתקציב: העלויות גבוהות ב-" +
       formatMoney(-summary.remaining) + " מהתקציב שהוגדר.";
     alert.hidden = false;
   } else {
