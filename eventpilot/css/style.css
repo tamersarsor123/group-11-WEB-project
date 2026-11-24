@@ -667,6 +667,9 @@ textarea.invalid {
   opacity: 0.35;
 }
 
+.legend-swatch.near { background: #d98a00; }
+.legend-swatch.over { background: var(--red); }
+
 /* פס דק יותר בתוך כרטיסי הסיכום */
 .progress.small {
   height: 8px;

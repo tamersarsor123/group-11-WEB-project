@@ -23,6 +23,12 @@ function getPaymentStatus(plannedCost, actualCost) {
   return actualCost === plannedCost ? "paid" : "partial";
 }
 
+// מעתיק את מצב הצבע של פס (near / over) לסימן שלו במקרא
+function matchLegendColor(swatch, bar) {
+  swatch.classList.toggle("near", bar.classList.contains("near"));
+  swatch.classList.toggle("over", bar.classList.contains("over"));
+}
+
 function renderBudget() {
   const summary = getEventSummary(currentEvent.id);
 
@@ -30,13 +36,21 @@ function renderBudget() {
   document.getElementById("budget-planned").textContent = formatMoney(summary.plannedCost);
   document.getElementById("budget-actual").textContent = formatMoney(summary.actualCost);
 
+  // כשיש חריגה מציגים "חריגה" עם הסכום שמעבר לתקציב, במקום יתרה שלילית
   const remaining = document.getElementById("budget-remaining");
-  remaining.textContent = formatMoney(summary.remaining);
+  document.getElementById("budget-remaining-label").textContent = summary.overBudget ? "חריגה" : "יתרה";
+  remaining.textContent = formatMoney(Math.abs(summary.remaining));
   remaining.className = summary.overBudget ? "danger-text" : "success-text";
 
   // פס בשתי שכבות: כל העלויות (בהיר) ומה שכבר שולם (כהה), ביחס לתקציב
-  const costPercent = setProgress(document.getElementById("budget-bar"), summary.totalCost, summary.budget, true);
-  const paidPercent = setProgress(document.getElementById("budget-paid-bar"), summary.actualCost, summary.budget, true);
+  const costBar = document.getElementById("budget-bar");
+  const paidBar = document.getElementById("budget-paid-bar");
+  const costPercent = setProgress(costBar, summary.totalCost, summary.budget, true);
+  const paidPercent = setProgress(paidBar, summary.actualCost, summary.budget, true);
+
+  // הצבעים במקרא זהים לצבעי הפס (ירוק, כתום או אדום)
+  matchLegendColor(document.getElementById("cost-swatch"), costBar);
+  matchLegendColor(document.getElementById("paid-swatch"), paidBar);
   document.getElementById("budget-bar-label").setAttribute("aria-label",
     "העלויות הן " + costPercent + "% מהתקציב, ומתוכן שולמו " + paidPercent + "% מהתקציב");
 
