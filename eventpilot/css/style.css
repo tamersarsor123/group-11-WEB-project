@@ -21,7 +21,12 @@
   --red: #b3261e;
   --red-bg: #fbe4e2;
   --radius: 12px;
-  --shadow: 0 1px 3px rgba(31, 58, 95, 0.12);
+  --shadow: 0 1px 2px rgba(20, 38, 64, 0.06), 0 6px 18px rgba(20, 38, 64, 0.07);
+  /* כחול עמוק לרצועת הכותרת, וזהב כהדגשה (כמו הטבעה על הזמנה) - בשימוש מצומצם */
+  --navy-deep: #142640;
+  --gold: #c9973b;
+  --amber: #d98a00;
+  --track: #ebe7dc;
 }
 
 /* ---------- בסיס ---------- */
@@ -199,6 +204,385 @@ a {
   margin-bottom: 1rem;
 }
 
+/*
+  רצועת כותרת כחולה בראש כל עמוד ניהול.
+  border-image עם outset רחב צובע את הרקע עד קצות המסך, גם מעבר לרוחב התוכן.
+  margin-bottom שלילי מושך את הכרטיס הבא כך שיעלה מעט על הרצועה.
+*/
+.app-page .page-title {
+  margin: -1rem 0 -2.5rem;
+  padding: 1.75rem 0 4rem;
+  color: var(--white);
+  border-image-source: linear-gradient(160deg, var(--navy-deep), #2a4f7d);
+  border-image-slice: 0 fill;
+  border-image-outset: 0 100vmax;
+}
+
+.app-page .page-title h1 {
+  color: var(--white);
+  font-size: 2rem;
+}
+
+/* שורה ראשונה (שם האירוע) בזהב, ושורות הסבר בלבן שקוף */
+.app-page .page-title .muted {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.app-page .page-title .muted:first-child {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.app-page .page-title .button.ghost {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.app-page .page-title .button.ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.app-page .page-title .button.primary {
+  background: var(--gold);
+  color: var(--navy-deep);
+}
+
+/* ---------- כותרת עמוד "האירוע שלי" ---------- */
+.event-hero {
+  align-items: center;
+}
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.25rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  list-style: none;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-meta li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero-meta .icon {
+  color: var(--gold);
+}
+
+/* הספירה לאחור: המספר הוא הדבר הבולט ביותר בעמוד */
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 8.5rem;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.countdown strong {
+  font-size: 2.75rem;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.countdown span {
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+}
+
+/* ---------- סמל, משתמש ותפריט ---------- */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.brand .icon {
+  color: var(--gold);
+}
+
+/* בעמודי הכניסה והאורח הסמל ממורכז */
+.auth-header .brand {
+  justify-content: center;
+}
+
+/* מונה התווים מוצג "0 / 200" משמאל לימין, צמוד לצד ימין של השדה */
+#note-counter {
+  align-self: flex-start;
+}
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy-deep);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* ---------- כותרת כרטיס עם תג בצד ---------- */
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-head h2 {
+  margin: 0;
+}
+
+/* ---------- גרף העוגה של אישורי ההגעה ---------- */
+.donut-layout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem 2rem;
+  padding: 0.5rem 0;
+}
+
+.donut {
+  display: grid;
+  place-items: center;
+  width: 170px;
+  height: 170px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--track);
+}
+
+/* החור באמצע הופך את העיגול לטבעת */
+.donut-center {
+  display: grid;
+  place-content: center;
+  width: 62%;
+  height: 62%;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--white);
+  text-align: center;
+}
+
+.donut-center strong {
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--navy);
+}
+
+.donut-center span {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.donut-legend {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 10rem;
+}
+
+.donut-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.donut-legend strong {
+  margin-inline-start: auto;
+  color: var(--navy);
+}
+
+.legend-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+}
+
+.legend-dot.attending { background: var(--green); }
+.legend-dot.pending { background: var(--amber); }
+.legend-dot.declined { background: var(--red); }
+
+/* ---------- הזמנה לאורח (עמוד אישור ההגעה) ---------- */
+.rsvp-page {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(201, 151, 59, 0.16), transparent 38%),
+    radial-gradient(circle at 92% 92%, rgba(31, 58, 95, 0.1), transparent 42%),
+    var(--cream);
+}
+
+.invitation {
+  overflow: hidden;
+}
+
+/* ראש ההזמנה נמתח עד קצוות הכרטיס בעזרת margin שלילי בגודל הריפוד של הכרטיס */
+.invite-head {
+  margin: -1.5rem -1.5rem 1.25rem;
+  padding: 2rem 1.5rem 1.75rem;
+  background: linear-gradient(160deg, var(--navy-deep), #2a4f7d);
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+}
+
+.invite-head p {
+  margin: 0;
+}
+
+.invite-emblem {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: 0 auto 0.75rem;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 1.35rem;
+}
+
+.invite-title {
+  margin: 0.2rem 0 0.35rem;
+  font-family: "Frank Ruhl Libre", "Times New Roman", serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.invite-info {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.result-emblem {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+#result-section {
+  text-align: center;
+}
+
+#result-section .details-list {
+  text-align: start;
+}
+
+/* כפתורי "מגיעים" / "לא מגיעים" כאריחים גדולים. כפתור הרדיו עצמו שקוף אבל עדיין פעיל */
+.answer-tiles .choice {
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1rem 0.75rem;
+  border-width: 2px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--muted);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.answer-tiles input {
+  position: absolute;
+  opacity: 0;
+}
+
+.answer-tiles .icon {
+  font-size: 1.5rem;
+}
+
+.answer-tiles .choice:has(input:focus-visible) {
+  outline: 3px solid #f0a500;
+  outline-offset: 2px;
+}
+
+/* .answer-tiles לפני המחלקה, כדי לגבור על הכלל הכללי של .choice שנבחר */
+.answer-tiles .answer-yes:has(input:checked) {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--white);
+}
+
+.answer-tiles .answer-no:has(input:checked) {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
+}
+
+/* שדה מספר עם כפתורי פלוס ומינוס */
+.stepper {
+  display: flex;
+  max-width: 11rem;
+}
+
+.stepper input {
+  text-align: center;
+  border-radius: 0;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.stepper input::-webkit-inner-spin-button,
+.stepper input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stepper-button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  padding: 0;
+  border: 1px solid #b9b3a5;
+  background: var(--white);
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.stepper-button:hover {
+  background: rgba(31, 58, 95, 0.08);
+}
+
+/* פינות מעוגלות רק בקצוות החיצוניים של הקבוצה */
+.stepper > :first-child {
+  border-start-start-radius: 8px;
+  border-end-start-radius: 8px;
+}
+
+.stepper > :last-child {
+  border-start-end-radius: 8px;
+  border-end-end-radius: 8px;
+}
+
+.button-with-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 /* ---------- כרטיסים ---------- */
 .card {
   background: var(--white);
@@ -267,28 +651,11 @@ a {
   background: rgba(255, 255, 255, 0.7);
 }
 
-/* רשימת פרטים עם אייקון לפני כל שורה */
-.icon-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.icon-list li {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.icon-list li:last-child {
-  border-bottom: 0;
-}
-
-.icon-list .icon {
-  color: var(--navy);
-}
+/* צבע לאייקון של כל כרטיס בעמוד "האירוע שלי", כדי להבדיל ביניהם במבט */
+.stat-icon.chip-green { background: var(--green-bg); color: var(--green); }
+.stat-icon.chip-blue { background: #e4ecf8; color: #2a5aa0; }
+.stat-icon.chip-violet { background: #ece8f6; color: #5b4a9e; }
+.stat-icon.chip-gold { background: #f8efdc; color: #9a6b16; }
 
 .overview-grid {
   display: grid;
@@ -918,14 +1285,10 @@ textarea.invalid {
     border-top: 1px solid rgba(255, 255, 255, 0.25);
   }
 
-  /* בעמוד "האירוע שלי": פרטי האירוע מימין וכרטיסי הסיכום (2x2) משמאל */
+  /* בעמוד "האירוע שלי": גרף אישורי ההגעה מימין והמשימות משמאל */
   .overview-grid {
-    grid-template-columns: 1fr 1.3fr;
-  }
-
-  .overview-grid .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    height: 100%;
+    grid-template-columns: 1fr 1.4fr;
+    align-items: start;
   }
 
   .stats-grid {

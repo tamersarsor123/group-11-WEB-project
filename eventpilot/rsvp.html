@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>אישור הגעה | EventPilot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Frank Ruhl Libre: גופן עם סריפים לשם האירוע בלבד, כמו בהזמנה מודפסת -->
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,10 +14,10 @@
 
   <!-- עמוד זה נפרד מממשק הניהול: אין בו תפריט ואין צורך בהתחברות -->
   <header class="auth-header">
-    <p class="brand">EventPilot</p>
+    <p class="brand"><span data-icon="logo"></span>EventPilot</p>
   </header>
 
-  <main class="auth-card card">
+  <main class="auth-card card invitation">
 
     <!-- מצב 1: הקישור לא תקף -->
     <section id="invalid-section" hidden>
@@ -26,9 +27,13 @@
 
     <!-- מצב 2: טופס אישור ההגעה -->
     <section id="form-section" hidden>
-      <p class="muted">הוזמנתם לאירוע</p>
-      <h1 id="event-title"></h1>
-      <p id="event-info" class="muted"></p>
+      <!-- ראש ההזמנה: סמל, שם האירוע, תאריך ומקום -->
+      <div class="invite-head">
+        <span class="invite-emblem"><span data-icon="heart"></span></span>
+        <p>הוזמנתם לאירוע</p>
+        <h1 id="event-title" class="invite-title"></h1>
+        <p id="event-info" class="invite-info"></p>
+      </div>
       <p id="greeting"></p>
 
       <p id="closed-message" class="message warning" hidden></p>
@@ -38,13 +43,16 @@
       <form id="rsvp-form" novalidate>
         <fieldset class="field">
           <legend>האם תגיעו?</legend>
-          <div class="choice-group">
-            <label class="choice">
+          <!-- כפתורי הבחירה הם כפתורי רדיו רגילים, שה-CSS מציג כאריחים גדולים -->
+          <div class="choice-group answer-tiles">
+            <label class="choice answer-yes">
               <input type="radio" name="answer" id="answer-yes" value="attending">
+              <span data-icon="smile"></span>
               <span>מגיעים</span>
             </label>
-            <label class="choice">
+            <label class="choice answer-no">
               <input type="radio" name="answer" id="answer-no" value="declined">
+              <span data-icon="cancel"></span>
               <span>לא מגיעים</span>
             </label>
           </div>
@@ -54,7 +62,12 @@
         <!-- מוצג רק כשבוחרים "מגיעים" -->
         <div class="field" id="count-field" hidden>
           <label for="guest-count">כמה תגיעו?</label>
-          <input type="number" id="guest-count" min="1" step="1" inputmode="numeric">
+          <!-- כפתורי פלוס ומינוס סביב השדה. אפשר גם להקליד מספר ישירות -->
+          <div class="stepper">
+            <button type="button" id="count-minus" class="stepper-button" aria-label="פחות משתתפים"><span data-icon="minus"></span></button>
+            <input type="number" id="guest-count" min="1" step="1" inputmode="numeric">
+            <button type="button" id="count-plus" class="stepper-button" aria-label="יותר משתתפים"><span data-icon="plus"></span></button>
+          </div>
           <small class="field-error"></small>
           <small class="hint" id="count-hint"></small>
         </div>
@@ -63,15 +76,16 @@
           <label for="guest-note">הערה למארגן (לא חובה)</label>
           <textarea id="guest-note" rows="3" maxlength="200" placeholder="למשל: מנה צמחונית"></textarea>
           <small class="field-error"></small>
-          <small class="hint" id="note-counter">0 / 200</small>
+          <small class="hint" id="note-counter" dir="ltr">0 / 200</small>
         </div>
 
-        <button type="submit" class="button primary full-width">שליחת התשובה</button>
+        <button type="submit" class="button primary full-width button-with-icon"><span data-icon="send"></span>שליחת התשובה</button>
       </form>
     </section>
 
     <!-- מצב 3: התשובה נשמרה -->
     <section id="result-section" aria-live="polite" hidden>
+      <span class="invite-emblem result-emblem"><span data-icon="check"></span></span>
       <h1 id="result-title"></h1>
       <p id="result-text"></p>
       <dl id="result-details" class="details-list"></dl>

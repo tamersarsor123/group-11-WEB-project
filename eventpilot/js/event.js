@@ -12,15 +12,63 @@ const taskForm = document.getElementById("task-form");
 const editSection = document.getElementById("edit-event-section");
 const editForm = document.getElementById("edit-event-form");
 
-// כרטיס "פרטי האירוע"
+// כמה ימים נשארו מהיום עד תאריך (בפורמט 2026-12-31). שלילי אם התאריך עבר.
+function daysUntil(dateText) {
+  const dayMs = 24 * 60 * 60 * 1000;
+  const today = new Date(todayString() + "T00:00:00");
+  const target = new Date(dateText + "T00:00:00");
+  return Math.round((target - today) / dayMs);
+}
+
+// כותרת האירוע: סוג, שם, פרטים וספירה לאחור
 function renderEventDetails() {
   document.getElementById("event-name").textContent = currentEvent.name;
   document.getElementById("detail-type").textContent = currentEvent.type;
   document.getElementById("detail-date").textContent = formatDate(currentEvent.date);
   document.getElementById("detail-location").textContent = currentEvent.location;
-  document.getElementById("detail-budget").textContent = formatMoney(currentEvent.budget);
-  document.getElementById("detail-guests").textContent = currentEvent.plannedGuests;
   document.getElementById("detail-deadline").textContent = formatDate(currentEvent.rsvpDeadline);
+
+  const days = daysUntil(currentEvent.date);
+  const number = document.getElementById("countdown-number");
+  const label = document.getElementById("countdown-label");
+  if (days > 1) {
+    number.textContent = days;
+    label.textContent = "ימים לאירוע";
+  } else if (days === 1) {
+    number.textContent = "מחר";
+    label.textContent = "האירוע";
+  } else if (days === 0) {
+    number.textContent = "היום";
+    label.textContent = "האירוע";
+  } else {
+    number.textContent = "✓";
+    label.textContent = "האירוע הסתיים";
+  }
+}
+
+/*
+  גרף עוגה של סטטוסי ההזמנות.
+  conic-gradient מצייר עיגול שבו כל צבע תופס זווית לפי האחוז שלו:
+  ירוק = אישרו, כתום = טרם השיבו, אדום = לא מגיעים.
+*/
+function renderRsvpChart(summary) {
+  const total = summary.invitationsCount;
+  const attending = total - summary.pendingInvitations - summary.declinedInvitations;
+  const attendingEnd = total ? (attending / total) * 100 : 0;
+  const pendingEnd = total ? ((attending + summary.pendingInvitations) / total) * 100 : 0;
+
+  const donut = document.getElementById("rsvp-donut");
+  donut.style.background = total
+    ? "conic-gradient(var(--green) 0 " + attendingEnd + "%, var(--amber) " + attendingEnd + "% " +
+      pendingEnd + "%, var(--red) " + pendingEnd + "% 100%)"
+    : "var(--track)";
+  donut.setAttribute("aria-label", attending + " אישרו הגעה, " + summary.pendingInvitations +
+    " טרם השיבו, " + summary.declinedInvitations + " לא מגיעים");
+
+  document.getElementById("donut-total").textContent = total;
+  document.getElementById("legend-attending").textContent = attending;
+  document.getElementById("legend-pending").textContent = summary.pendingInvitations;
+  document.getElementById("legend-declined").textContent = summary.declinedInvitations;
 }
 
 // מעדכן את כרטיסי הסיכום ואת ההתראות לפי הנתונים העדכניים
@@ -49,6 +97,8 @@ function renderSummary() {
   document.getElementById("stat-vendors-note").textContent = paidVendors + " שולמו במלואם";
 
   document.getElementById("stat-seated").textContent = summary.seatedGuests + " / " + summary.confirmedGuests;
+
+  renderRsvpChart(summary);
 
   alertsArea.innerHTML = "";
   if (summary.overBudget) {
@@ -123,6 +173,11 @@ function renderTasks() {
     tasksList.appendChild(createTaskItem(task));
   });
   document.getElementById("tasks-empty").hidden = tasks.length > 0;
+
+  const done = tasks.filter(function (task) { return task.done; }).length;
+  const progress = document.getElementById("tasks-progress");
+  progress.textContent = done + " מתוך " + tasks.length + " הושלמו";
+  progress.hidden = tasks.length === 0;
 }
 
 function handleAddTask(submitEvent) {
