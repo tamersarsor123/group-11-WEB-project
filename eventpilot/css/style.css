@@ -335,8 +335,11 @@ a {
   gap: 0.45rem;
 }
 
-.brand .icon {
-  color: var(--gold);
+/* הלוגו: מעטפת הזמנה שהדש שלה הוא לב (img/logo.svg) */
+.brand-logo {
+  width: 1.6em;
+  height: 1.6em;
+  flex: none;
 }
 
 /* בעמודי הכניסה והאורח הסמל ממורכז */
