@@ -59,8 +59,8 @@ function renderRsvpChart(summary) {
 
   const donut = document.getElementById("rsvp-donut");
   donut.style.background = total
-    ? "conic-gradient(var(--green) 0 " + attendingEnd + "%, var(--amber) " + attendingEnd + "% " +
-      pendingEnd + "%, var(--red) " + pendingEnd + "% 100%)"
+    ? "conic-gradient(var(--bar-green) 0 " + attendingEnd + "%, var(--amber) " + attendingEnd + "% " +
+      pendingEnd + "%, var(--bar-red) " + pendingEnd + "% 100%)"
     : "var(--track)";
   donut.setAttribute("aria-label", attending + " אישרו הגעה, " + summary.pendingInvitations +
     " טרם השיבו, " + summary.declinedInvitations + " לא מגיעים");

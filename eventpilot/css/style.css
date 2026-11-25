@@ -6,27 +6,48 @@
 */
 
 /* ---------- משתנים ---------- */
+/*
+  פלטה רכה לעין, באותן משמעויות של חלק א':
+  כחול לניווט ולכותרות, רקע בהיר, ירוק לתקין, כתום ואדום להתראות.
+  לכל צבע סטטוס יש שתי רמות: גוון כהה לטקסט (קריא על רקע בהיר),
+  וגוון רך לפסים ולגרפים, שמשטחים גדולים שלו לא מעייפים את העין.
+*/
 :root {
-  --navy: #1f3a5f;
-  --navy-dark: #162b47;
-  --cream: #faf7f0;
+  /* כחולים */
+  --navy: #2b4a72;
+  --navy-dark: #223c5e;
+  --navy-deep: #1f3552;
+  --navy-light: #335478;
+
+  /* רקעים, טקסט וקווים */
+  --cream: #f6f4ef;
   --white: #ffffff;
-  --text: #22303f;
-  --muted: #5b6878;
-  --border: #dcd6c8;
-  --green: #1e7b4c;
-  --green-bg: #e3f4ea;
-  --orange: #a85b00;
-  --orange-bg: #fdefd8;
-  --red: #b3261e;
-  --red-bg: #fbe4e2;
-  --radius: 12px;
-  --shadow: 0 1px 2px rgba(20, 38, 64, 0.06), 0 6px 18px rgba(20, 38, 64, 0.07);
-  /* כחול עמוק לרצועת הכותרת, וזהב כהדגשה (כמו הטבעה על הזמנה) - בשימוש מצומצם */
-  --navy-deep: #142640;
-  --gold: #c9973b;
-  --amber: #d98a00;
-  --track: #ebe7dc;
+  --text: #2d3646;
+  --muted: #636e80;
+  --border: #e5e0d6;
+  --input-border: #cbc4b6;
+  --track: #ece8e0;
+
+  /* סטטוסים: טקסט ורקע */
+  --green: #2a7354;
+  --green-bg: #e7f3ec;
+  --orange: #94590f;
+  --orange-bg: #fcf1df;
+  --red: #b5473d;
+  --red-bg: #fbebe8;
+
+  /* סטטוסים: פסים וגרפים */
+  --bar-green: #4a9e78;
+  --amber: #e2a13b;
+  --bar-red: #d16557;
+
+  /* זהב כהדגשה מצומצמת, ומסגרת פוקוס בולטת למקלדת */
+  --gold: #c8a25e;
+  --gold-text: #e0c48e; /* זהב בהיר יותר לטקסט על הרצועה הכחולה, לקריאות */
+  --focus: #d99a2b;
+
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(31, 53, 82, 0.05), 0 8px 24px rgba(31, 53, 82, 0.06);
 }
 
 /* ---------- בסיס ---------- */
@@ -213,7 +234,7 @@ a {
   margin: -1rem 0 -2.5rem;
   padding: 1.75rem 0 4rem;
   color: var(--white);
-  border-image-source: linear-gradient(160deg, var(--navy-deep), #2a4f7d);
+  border-image-source: linear-gradient(160deg, var(--navy-deep), var(--navy-light));
   border-image-slice: 0 fill;
   border-image-outset: 0 100vmax;
 }
@@ -229,7 +250,7 @@ a {
 }
 
 .app-page .page-title .muted:first-child {
-  color: var(--gold);
+  color: var(--gold-text);
   font-weight: 600;
 }
 
@@ -257,7 +278,7 @@ a {
   align-items: center;
   gap: 0.4rem;
   margin: 0 0 0.25rem;
-  color: var(--gold);
+  color: var(--gold-text);
   font-weight: 700;
 }
 
@@ -298,7 +319,7 @@ a {
 .countdown strong {
   font-size: 2.75rem;
   line-height: 1;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .countdown span {
@@ -422,15 +443,15 @@ a {
   border-radius: 50%;
 }
 
-.legend-dot.attending { background: var(--green); }
+.legend-dot.attending { background: var(--bar-green); }
 .legend-dot.pending { background: var(--amber); }
-.legend-dot.declined { background: var(--red); }
+.legend-dot.declined { background: var(--bar-red); }
 
 /* ---------- הזמנה לאורח (עמוד אישור ההגעה) ---------- */
 .rsvp-page {
   background:
-    radial-gradient(circle at 12% 8%, rgba(201, 151, 59, 0.16), transparent 38%),
-    radial-gradient(circle at 92% 92%, rgba(31, 58, 95, 0.1), transparent 42%),
+    radial-gradient(circle at 12% 8%, rgba(200, 162, 94, 0.16), transparent 38%),
+    radial-gradient(circle at 92% 92%, rgba(43, 74, 114, 0.08), transparent 42%),
     var(--cream);
 }
 
@@ -442,7 +463,7 @@ a {
 .invite-head {
   margin: -1.5rem -1.5rem 1.25rem;
   padding: 2rem 1.5rem 1.75rem;
-  background: linear-gradient(160deg, var(--navy-deep), #2a4f7d);
+  background: linear-gradient(160deg, var(--navy-deep), var(--navy-light));
   color: rgba(255, 255, 255, 0.8);
   text-align: center;
 }
@@ -472,7 +493,7 @@ a {
 }
 
 .invite-info {
-  color: var(--gold);
+  color: var(--gold-text);
   font-weight: 600;
 }
 
@@ -513,7 +534,7 @@ a {
 }
 
 .answer-tiles .choice:has(input:focus-visible) {
-  outline: 3px solid #f0a500;
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -555,14 +576,14 @@ a {
   flex: none;
   width: 2.75rem;
   padding: 0;
-  border: 1px solid #b9b3a5;
+  border: 1px solid var(--input-border);
   background: var(--white);
   color: var(--navy);
   cursor: pointer;
 }
 
 .stepper-button:hover {
-  background: rgba(31, 58, 95, 0.08);
+  background: rgba(43, 74, 114, 0.07);
 }
 
 /* פינות מעוגלות רק בקצוות החיצוניים של הקבוצה */
@@ -629,14 +650,14 @@ a {
   height: 2.4rem;
   border-radius: 10px;
   color: var(--navy);
-  background: rgba(31, 58, 95, 0.08);
+  background: rgba(43, 74, 114, 0.07);
   font-size: 1.1rem;
 }
 
 /* כרטיסים צבעוניים לפי משמעות הנתון */
-.stat-card.tone-green { background: var(--green-bg); border-color: #b7dfc7; }
-.stat-card.tone-orange { background: var(--orange-bg); border-color: #f1d3a3; }
-.stat-card.tone-red { background: var(--red-bg); border-color: #efc2be; }
+.stat-card.tone-green { background: var(--green-bg); border-color: #cfe6d8; }
+.stat-card.tone-orange { background: var(--orange-bg); border-color: #f2ddb8; }
+.stat-card.tone-red { background: var(--red-bg); border-color: #f0cdc8; }
 
 .tone-green .stat-icon,
 .tone-green .stat-number { color: var(--green); }
@@ -653,9 +674,9 @@ a {
 
 /* צבע לאייקון של כל כרטיס בעמוד "האירוע שלי", כדי להבדיל ביניהם במבט */
 .stat-icon.chip-green { background: var(--green-bg); color: var(--green); }
-.stat-icon.chip-blue { background: #e4ecf8; color: #2a5aa0; }
-.stat-icon.chip-violet { background: #ece8f6; color: #5b4a9e; }
-.stat-icon.chip-gold { background: #f8efdc; color: #9a6b16; }
+.stat-icon.chip-blue { background: #e8eef7; color: #3a5f94; }
+.stat-icon.chip-violet { background: #eeebf6; color: #5f5398; }
+.stat-icon.chip-gold { background: #f7f0e1; color: #94702a; }
 
 .overview-grid {
   display: grid;
@@ -685,7 +706,7 @@ a {
 
 .event-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(31, 58, 95, 0.18);
+  box-shadow: 0 4px 12px rgba(31, 53, 82, 0.12);
 }
 
 .card-actions {
@@ -724,7 +745,7 @@ a {
 }
 
 .button.ghost:hover {
-  background: rgba(31, 58, 95, 0.08);
+  background: rgba(43, 74, 114, 0.07);
 }
 
 .button.small {
@@ -746,7 +767,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid #f0a500;
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -775,7 +796,7 @@ textarea {
   font: inherit;
   color: var(--text);
   background: var(--white);
-  border: 1px solid #b9b3a5;
+  border: 1px solid var(--input-border);
   border-radius: 8px;
 }
 
@@ -841,7 +862,7 @@ textarea.invalid {
 /* מדגיש את האפשרות שנבחרה */
 .choice:has(input:checked) {
   border-color: var(--navy);
-  background: rgba(31, 58, 95, 0.08);
+  background: rgba(43, 74, 114, 0.07);
 }
 
 /* ---------- הודעות ותוויות ---------- */
@@ -873,7 +894,7 @@ textarea.invalid {
   white-space: nowrap;
 }
 
-.badge.neutral { background: #ebe7dc; color: var(--text); }
+.badge.neutral { background: var(--track); color: var(--text); }
 .badge.success { background: var(--green-bg); color: var(--green); }
 .badge.warning { background: var(--orange-bg); color: var(--orange); }
 .badge.danger { background: var(--red-bg); color: var(--red); }
@@ -978,7 +999,7 @@ textarea.invalid {
 .progress {
   height: 14px;
   margin: 0.75rem 0;
-  background: #ebe7dc;
+  background: var(--track);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -986,12 +1007,12 @@ textarea.invalid {
 .progress-bar {
   height: 100%;
   width: 0;
-  background: var(--green);
+  background: var(--bar-green);
   transition: width 0.4s ease;
 }
 
-.progress-bar.near { background: #d98a00; }
-.progress-bar.over { background: var(--red); }
+.progress-bar.near { background: var(--amber); }
+.progress-bar.over { background: var(--bar-red); }
 
 /* פס בשתי שכבות: שני הפסים מונחים זה על זה ומתחילים מימין */
 .progress.layered {
@@ -1027,15 +1048,15 @@ textarea.invalid {
   width: 0.9rem;
   height: 0.6rem;
   border-radius: 999px;
-  background: var(--green);
+  background: var(--bar-green);
 }
 
 .legend-swatch.light {
   opacity: 0.35;
 }
 
-.legend-swatch.near { background: #d98a00; }
-.legend-swatch.over { background: var(--red); }
+.legend-swatch.near { background: var(--amber); }
+.legend-swatch.over { background: var(--bar-red); }
 
 /* פס דק יותר בתוך כרטיסי הסיכום */
 .progress.small {
@@ -1117,7 +1138,7 @@ textarea.invalid {
   width: 16px;
   height: 16px;
   margin: -8px;
-  border: 2px solid #9aa6b5;
+  border: 2px solid #a9b3c1;
   border-radius: 5px;
   background: var(--white);
   transform: rotate(var(--angle)) translateY(-72px);
